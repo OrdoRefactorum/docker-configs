@@ -1,0 +1,5 @@
+# exclude data folder
+data/*
+
+# ensure gitkeep files are taken in
+!**/.gitkeep
