@@ -1,0 +1,28 @@
+services:
+  oolama:
+    image: ollama/ollama
+    restart: unless-stopped
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama_data:/root/.ollama
+  open-web-ui:
+    image: ghcr.io/open-webui/open-webui:ollama
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./open-webui:/app/backend/data
+    restart: unless-stopped
+    depends_on:
+      - oolama
+    ports:
+      - 3000:8080
+    environment:
+      - gpus=all
+volumes:
+  # not sure this will work on every system
+  ollama_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./data
+      o: bind

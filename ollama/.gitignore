@@ -1,0 +1,6 @@
+# exclude data folder
+data/*
+open-webui/*
+
+# ensure gitkeep files are taken in
+!**/.gitkeep

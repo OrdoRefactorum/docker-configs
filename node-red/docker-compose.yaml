@@ -1,0 +1,8 @@
+services:
+  node-red:
+    image: nodered/node-red
+    ports:
+      - 1880:1880
+    volumes:
+      - ./node_red_data:/data
+      - ./uploads:/uploads
