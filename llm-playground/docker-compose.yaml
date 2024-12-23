@@ -1,28 +1,27 @@
+name: llm-playground
 services:
-  oolama:
+  ollama:
     image: ollama/ollama
     restart: unless-stopped
     ports:
       - 11434:11434
     volumes:
       - ollama_data:/root/.ollama
-  open-web-ui:
+  
+  web:
     image: ghcr.io/open-webui/open-webui:ollama
     volumes:
       - ollama_data:/root/.ollama
-      - ./open-webui:/app/backend/data
+      - open-webui_data:/app/backend/data
     restart: unless-stopped
     depends_on:
-      - oolama
+      - ollama
     ports:
       - 3000:8080
     environment:
       - gpus=all
 volumes:
-  # not sure this will work on every system
+  # will be stored under /var/lib/docker/volumes/llm-playground_ollama_data/
   ollama_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./data
-      o: bind
+  # will be stored under /var/lib/docker/volumes/llm-playground_open-webui_data/
+  open-webui_data:
