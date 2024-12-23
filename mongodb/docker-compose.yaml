@@ -1,14 +1,15 @@
+name: mongodb
 services:
-  mongodb:
+  server:
     image: mongodb/mongodb-community-server:latest
     ports:
     - 27017:27017
     volumes:
       # ensure data is persisted
-      - mongodb_data:/data/db
+      - data:/data/db
     environment:
       MONGODB_INITDB_ROOT_USERNAME: user
       MONGODB_INITDB_ROOT_PASSWORD: pass
 volumes:
-  # will be stored under /var/lib/docker/volumes/mongodb_mongodb_data/
-  mongodb_data:
+  # will be stored under /var/lib/docker/volumes/mongodb_data/
+  data:

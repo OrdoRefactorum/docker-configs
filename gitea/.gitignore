@@ -1,7 +1,0 @@
-# exclude data folder
-config/*
-data/*
-mysql/*
-
-# ensure gitkeep files are taken in
-!**/.gitkeep
