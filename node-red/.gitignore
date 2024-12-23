@@ -1,5 +1,4 @@
 # exclude data folder
-node_red_data/*
 uploads/*
 
 # ensure gitkeep files are taken in

@@ -1,8 +1,12 @@
+name: node-red
 services:
-  node-red:
+  server:
     image: nodered/node-red
     ports:
       - 1880:1880
     volumes:
-      - ./node_red_data:/data
+      - data:/data
       - ./uploads:/uploads
+volumes:
+  # will be stored under /var/lib/docker/volumes/node-red_data/
+  data:
