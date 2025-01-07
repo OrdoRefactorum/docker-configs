@@ -1,0 +1,14 @@
+name: 8n8
+services:
+  server:
+    image: docker.n8n.io/n8nio/n8n
+    ports:
+      - 5678:5678
+    volumes:
+      - data:/home/node/.n8n
+    environment:
+      - GENERIC_TIMEZONE="Europe/Berlin"
+      - TZ="Europe/Berlin"
+volumes:
+  # will be stored under /var/lib/docker/volumes/8n8_data/
+  data:
