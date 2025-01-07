@@ -1,0 +1,31 @@
+# inspired by https://docs.openolat.org/manual_admin/installation/installGuide/
+name: openolat
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    depends_on:
+      - db
+    ports:
+      - 8085:8085
+      - 8088:8088
+    networks:
+      custom_net:
+        ipv4_address: 192.168.0.3
+  db:
+    image: postgres:12.18
+    restart: always
+    environment:
+      POSTGRES_USER: oodbu
+      POSTGRES_PASSWORD: oodbpasswd
+      POSTGRES_DB: oodb
+    networks:
+      custom_net:
+        ipv4_address: 192.168.0.2
+networks:
+  custom_net:
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
+          gateway: 192.168.0.1

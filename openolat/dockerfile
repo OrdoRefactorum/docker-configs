@@ -1,0 +1,18 @@
+# CATALINA_BASE is /usr/local/tomcat
+# JRE_HOME is /user
+FROM tomcat:10.1.19-jre17
+
+RUN useradd -m -s /bin/bash openolat
+
+WORKDIR /home/openolat/downloads
+RUN wget https://www.openolat.com/fileadmin/downloads/releases/openolat_1822.war
+RUN apt-get -y update && apt-get -y install unzip
+RUN unzip openolat_1822.war -d /home/openolat/webapp && rm openolat_1822.war
+
+# copy tomcat config files
+WORKDIR /usr/local/tomcat
+ADD settings/setenv.sh bin/
+ADD settings/server.xml conf/
+ADD settings/ROOT.xml conf/Catalina/localhost/
+ADD settings/olat.local.properties lib/
+ADD settings/log4j2.xml lib/
