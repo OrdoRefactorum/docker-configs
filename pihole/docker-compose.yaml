@@ -1,0 +1,22 @@
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+name: pihole
+services:
+  server:
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "6953:53/tcp"
+      - "6953:53/udp"
+      - "8888:80/tcp"
+    environment:
+      TZ: 'Europe/Zurich'
+      WEBPASSWORD: 'Test.123'
+    volumes:
+      - home:/etc/pihole
+      - dnsmasq:/etc/dnsmasq.d
+    restart: unless-stopped
+volumes:
+  # will be stored under /var/lib/docker/volumes/pihole_home/
+  home:
+  # will be stored under /var/lib/docker/volumes/pihole_dnsmasq/
+  dnsmasq:
