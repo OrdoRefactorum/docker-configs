@@ -1,0 +1,24 @@
+# derived from https://www.openhab.org/docs/installation/docker.html
+name: openhab
+services:
+  server:
+    image: openhab/openhab:latest-debian
+    restart: always
+    network_mode: "host"
+    environment:
+      - USER_ID=997
+      - GROUP_ID=996
+      - CRYPTO_POLICY=unlimited
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - config:/openhab/conf
+      - data:/openhab/userdata
+      - addons:/openhab/addons
+volumes:
+  # will be stored under /var/lib/docker/volumes/openhab_config/
+  config:
+  # will be stored under /var/lib/docker/volumes/openhab_data/
+  data:
+  # will be stored under /var/lib/docker/volumes/openhab_addons/
+  addons:
