@@ -1,0 +1,35 @@
+name: paperless-ngx
+services:
+  broker:
+    image: docker.io/library/redis:7
+    restart: unless-stopped
+    volumes:
+      - brokerdata:/data
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    depends_on:
+      - broker
+    ports:
+      - "8000:8000"
+    volumes:
+      - data:/usr/src/paperless/data
+      - media:/usr/src/paperless/media
+      - export:/usr/src/paperless/export
+      - consume:/usr/src/paperless/consume
+    env_file: docker-compose.env
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+
+volumes:
+  # will be stored under /var/lib/docker/volumes/paperless-ngx_data/
+  data:
+  # will be stored under /var/lib/docker/volumes/paperless-ngx_media/
+  media:
+  # will be stored under /var/lib/docker/volumes/paperless-ngx_export/
+  export:
+  # will be stored under /var/lib/docker/volumes/paperless-ngx_consume/
+  consume:
+  # will be stored under /var/lib/docker/volumes/paperless-ngx_brokerdata/
+  brokerdata:
