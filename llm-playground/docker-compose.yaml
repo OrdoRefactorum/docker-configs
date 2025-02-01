@@ -1,25 +1,31 @@
 name: llm-playground
 services:
-  ollama:
-    image: ollama/ollama
-    restart: unless-stopped
-    ports:
-      - 11434:11434
-    volumes:
-      - ollama_data:/root/.ollama
-  
   web:
     image: ghcr.io/open-webui/open-webui:ollama
     volumes:
       - ollama_data:/root/.ollama
       - open-webui_data:/app/backend/data
     restart: unless-stopped
-    depends_on:
-      - ollama
     ports:
       - 3000:8080
     environment:
-      - gpus=all
+      - WEBUI_AUTH=False # turn off user login requirement
+      # security settings
+      - cap_add=SYS_NICE
+      - cap_drop=ALL
+      - security_opt=no-new-privileges
+    memswap_limit: 8G
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: 8G
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
 volumes:
   # will be stored under /var/lib/docker/volumes/llm-playground_ollama_data/
   ollama_data:
